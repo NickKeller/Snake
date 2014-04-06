@@ -45,8 +45,8 @@ void drawImage3(int r, int c, int width, int height, int image){
 	int h;
 	for(h = 0; h < height; h++){
 		//memmove(videoBuffer + OFFSET(r + h, c, 240), image, width * sizeof(u16));
-		int color = image;
-		DMA[3].src = &color;
+		int color[] = {image};
+		DMA[3].src = color;
 		DMA[3].dst = videoBuffer + OFFSET(r + h, c, 240);
 		DMA[3].cnt = (width) | DMA_SOURCE_FIXED | DMA_ON;
 	}
@@ -69,29 +69,11 @@ void waitForVblank(){
 
 
 void clearScreen(){
-	for(int r = 0; r < 160; r++){
-		for(int c = 0; c < 240; c++){
-			setPixel(r,c, 0);
-		}
-	}
-	/*int clear = RED;
-	DEBUG_PRINTF("Clearing the screen to value %d\n", clear);
-	DMA[3].src = &clear;
+	int clear[] = {BLACK};
+	DMA[3].src = clear;
 	DMA[3].dst = videoBuffer;
-	DMA[3].cnt = (240 * 160) | DMA_SOURCE_FIXED | DMA_ON;*/
+	DMA[3].cnt = (240 * 160) | DMA_SOURCE_FIXED | DMA_ON;
 }
 
-LIST* initializeSnake(){
-	LIST * l = create_list();
-	//establish 3 sections
-	int col = 60;
-	for(int i = 0; i < 3; i++){
-		list_add(l,0,col,20,20);	
-		col -= 20;
-	}
-	int foodRow = 100;
-	int foodCol = 100;
-	l->food = create_node(foodRow, foodCol, 20, 20);
-	return l;
-}
+
 

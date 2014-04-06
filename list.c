@@ -28,11 +28,13 @@ void list_add(LIST* llist, int row, int col, int width, int height)
 		//new list, point the head and tail toward the newly created node
 		llist->head = node;
 		llist->tail = node;
+		
 	}
 	//else, make the new node the tail
 	else{
 		//instantiate node as the new tail of the list
 		llist->tail->next = node;
+		node->prev = llist->tail;
 		node->next = NULL;
 		llist->tail = node;
 	}
@@ -107,6 +109,47 @@ void print_node(NODE* node)
 //	printf("-------------------------------\n");
 //	printf("-------------------------------\n");
 	return;
+}
+/*
+	This function will initialize the snake, and the food that will cause the snake to grow 
+*/
+LIST* initializeSnake(){
+	LIST * l = create_list();
+	//establish 3 sections
+	int col = 60;
+	for(int i = 0; i < 5; i++){
+		list_add(l,0,col,10,10);	
+		col -= 10;
+	}
+	int foodRow = 100;
+	int foodCol = 100;
+	l->food = create_node(foodRow, foodCol, 10, 10);
+	return l;
+}
+/*
+	updates the positions of the snake
+*/
+void updateSnakePositions(LIST* snake, int oldRow, int oldCol){
+	NODE* current = snake->tail;
+	while(current->prev != snake->head){
+		current->row = current->prev->row;
+		current->col = current->prev->col;
+		current = current->prev;
+	}
+	current->row = oldRow;
+	current->col = oldCol;
+}
+
+void drawSnake(LIST* snake, int ateFood, int oldRow, int oldCol){
+	//draw the new location of the head of the snake
+	drawImage3(snake->head->row, snake->head->col, snake->head->width,
+				 snake->head->height, WHITE);
+	//only draw over the tail if it didn't eat food
+	if(ateFood == 0){
+		drawImage3(oldRow, oldCol, snake->tail->width, 
+					snake->tail->height, BLACK);
+	}
+	
 }
 
 

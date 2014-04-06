@@ -38,6 +38,7 @@ int playGame(){
 	int result = 0;
 	int iteration = 0;
 	int time = 5;
+	int ateFood = 0;
 	//initialize the snake
 	LIST *snake = initializeSnake();
 	//draw the initial snake
@@ -77,6 +78,10 @@ int playGame(){
 		}
 		
 		//check for collision detection
+		//check for hit the food
+		if(snake->head->row == snake->food->row && snake->head->col == snake->food->col){
+			ateFood = 1;
+		}
 		//hit top of screen?
 		if(snake->head->row < 0){
 			DEBUG_PRINTF("Snake hit top of screen. Row is %d\n", snake->head->row);
@@ -98,6 +103,12 @@ int playGame(){
 		//hit right side of screen?
 		if(snake->head->col > (239 - snake->head->width + 1)){
 			DEBUG_PRINTF("Snake hit right of screen. Col is %d\n", snake->head->col);
+			result = 0;
+			break;
+		}
+		
+		//did the snake hit itself?
+		if(hitSelf(snake)){
 			result = 0;
 			break;
 		}
@@ -128,7 +139,7 @@ int playGame(){
 		if(iteration > time){
 			updateSnakePositions(snake, oldRow, oldCol);
 		}	
-		int ateFood = 0;
+		
 		//wait for VBlank to draw
 		waitForVblank();
 		if(iteration > time){

@@ -17,8 +17,8 @@
 
 #ifndef WINNINGSCREEN_BITMAP_H
 #define WINNINGSCREEN_BITMAP_H
-
 extern const unsigned short WinningScreen[38400];
+void displayWinningScreen(void);
 #define WINNINGSCREEN_WIDTH 240
 #define WINNINGSCREEN_HEIGHT 160
 

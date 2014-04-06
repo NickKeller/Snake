@@ -22,4 +22,5 @@ extern const unsigned short LosingScreen[38400];
 #define LOSINGSCREEN_WIDTH 240
 #define LOSINGSCREEN_HEIGHT 160
 
+void displayLosingScreen(void);
 #endif

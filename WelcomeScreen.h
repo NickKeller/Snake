@@ -22,4 +22,6 @@ extern const unsigned short WelcomeScreen[38400];
 #define WELCOMESCREEN_WIDTH 240
 #define WELCOMESCREEN_HEIGHT 160
 
+void displayWelcomeScreen(void);
+
 #endif

@@ -14,6 +14,9 @@
  * 
  * All bug reports / feature requests are to be sent to Brandon (brandon.whitehead@gatech.edu)
  */
+ 
+ #include "mylib.h"
+ #include "WinningScreen.h"
 
 const unsigned short WinningScreen[38400] =
 {
@@ -3858,3 +3861,9 @@ const unsigned short WinningScreen[38400] =
 	0x7fff,0x7fff,0x7fff,0x7fff,0x7fff,0x7fff,0x7fff,0x7fff,0x7fff,0x7fff,
 	0x7fff,0x7fff,0x7fff,0x7fff,0x7fff,0x7fff,0x7fff,0x7fff,0x7fff,0x7fff
 };
+
+void displayWinningScreen(){
+	DMA[3].src = WinningScreen;
+	DMA[3].dst = videoBuffer;
+	DMA[3].cnt = (240 * 160) | DMA_ON;
+}

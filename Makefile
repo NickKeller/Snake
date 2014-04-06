@@ -7,16 +7,16 @@
 # The name of your desired GBA game
 # This should be a just a name i.e MyFirstGBAGame
 # No SPACES AFTER THE NAME.
-PROGNAME = Space_Invaders
+PROGNAME = Snake
 
 # The object files you want to compile into your program
 # This should be a space (SPACE!) separated list of .o files
-OFILES = main.o mylib.o ship.o bullet.o alien.o WelcomeScreen.o LosingScreen.o
+OFILES = main.o mylib.o list.o LosingScreen.o WinningScreen.o WelcomeScreen.o
 
 # The header files you have created.
 # This is necessary to determine when to recompile for files.
 # This should be a space (SPACE!) separated list of .h files
-HFILES = mylib.h alien.h ship.h bullet.h WelcomeScreen.h LosingScreen.h
+HFILES = mylib.h list.h LosingScreen.h WinningScreen.h WelcomeScreen.h
 
 ################################################################################
 # These are various settings used to make the GBA toolchain work

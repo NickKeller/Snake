@@ -14,6 +14,10 @@
  * 
  * All bug reports / feature requests are to be sent to Brandon (brandon.whitehead@gatech.edu)
  */
+ 
+ #include "mylib.h"
+ #include "LosingScreen.h"
+ 
 
 const unsigned short LosingScreen[38400] =
 {
@@ -3858,3 +3862,9 @@ const unsigned short LosingScreen[38400] =
 	0x7fff,0x7fff,0x7fff,0x7fff,0x7fff,0x7fff,0x7fff,0x7fff,0x7fff,0x7fff,
 	0x7fff,0x7fff,0x7fff,0x7fff,0x7fff,0x7fff,0x7fff,0x7fff,0x7fff,0x7fff
 };
+
+void displayLosingScreen(){
+	DMA[3].src = LosingScreen;
+	DMA[3].dst = videoBuffer;
+	DMA[3].cnt = (160*240) | DMA_ON;
+}

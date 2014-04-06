@@ -150,7 +150,58 @@ void drawSnake(LIST* snake, int ateFood, int oldRow, int oldCol){
 					snake->tail->height, BLACK);
 	}
 	
+	else{
+		
+	}
+	
 }
+
+int hitSelf(LIST* snake){
+	int result = 0;
+	NODE* current = snake->head->next;
+	while(current != NULL){
+		if(snake->head->row == current->row && snake->head->col == current->col){
+			result = 1;
+		}
+		current = current->next;
+	}
+	return result;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

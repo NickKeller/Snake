@@ -109,6 +109,7 @@ int playGame(){
 		
 		//did the snake hit itself?
 		if(hitSelf(snake)){
+			DEBUG_PRINT("Snake hit itself. Exiting\n");
 			result = 0;
 			break;
 		}
@@ -145,6 +146,7 @@ int playGame(){
 		if(iteration > time){
 			drawSnake(snake, ateFood, oldRowTail, oldColTail);
 			iteration = 0;
+			ateFood = 0;
 		}	
 		iteration++;
 	}

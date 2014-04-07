@@ -156,7 +156,8 @@ void drawSnake(LIST* snake, int ateFood, int oldRow, int oldCol){
 	
 	else{
 		//snake ate the food, find a new place for the food
-		srand(time(NULL));
+		int seed = time(NULL);
+		srand(seed);
 		int row = 0;
 		int col = 0;
 		do{

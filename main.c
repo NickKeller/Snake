@@ -6,8 +6,11 @@
 
 #include <debugging.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 u16 *videoBuffer = ((u16 *)(0x6000000));
+int screenWidth = 239;
+int screenHeight = 159;
 
 int main(void){
 	//set mode 3
@@ -29,7 +32,7 @@ int main(void){
 			displayWinningScreen();
 		}
 		//wait for player to hit reset
-		while(!KEY_DOWN_NOW(BUTTON_SELECT));
+		while(!KEY_DOWN_NOW(BUTTON_START));
 	}
 }
 
@@ -45,42 +48,54 @@ int playGame(){
 	NODE* toDraw = snake->head;
 	while(toDraw != NULL){
 		DEBUG_PRINT("Drawing a new portion of the snake\n");
-		drawImage3(toDraw->row, toDraw->col, toDraw->width, toDraw->height, WHITE);
+		drawImage3(toDraw->row, 
+				   toDraw->col, 
+				   toDraw->width, 
+				   toDraw->height, WHITE);
 		toDraw = toDraw->next;
 	}
 	//draw the food
-	drawImage3(snake->food->row, snake->food->col, snake->food->width,
-				snake->food->height, WHITE);
+	drawImage3(snake->food->row, 
+			   snake->food->col, 
+			   snake->food->width,
+			   snake->food->height, WHITE);
 	DEBUG_PRINT("Drew the food\n");
 				
 	//main game loop
 	while(1){
 		
-		DEBUG_PRINTF("Snake head row = %d\nSnake head col = %d\nIteration = %d\n",
-					 snake->head->row, snake->head->col, iteration);
+		//DEBUG_PRINTF("Snake head row = %d\nSnake head col = %d\nIteration = %d\n",
+					// snake->head->row, snake->head->col, iteration);
 		
 		//check for arrow keys
 		if(KEY_DOWN_NOW(BUTTON_UP) && direction != DOWN){
-			DEBUG_PRINT("Direction is now up\n");
+			//DEBUG_PRINT("Direction is now up\n");
 			direction = UP;
 		}
 		if(KEY_DOWN_NOW(BUTTON_RIGHT) && direction != LEFT){
-			DEBUG_PRINT("Direction is now right\n");
+			//DEBUG_PRINT("Direction is now right\n");
 			direction = RIGHT;
 		}
 		if(KEY_DOWN_NOW(BUTTON_LEFT) && direction != RIGHT){
-			DEBUG_PRINT("Direction is now left\n");
+			//DEBUG_PRINT("Direction is now left\n");
 			direction = LEFT;
 		}
 		if(KEY_DOWN_NOW(BUTTON_DOWN) && direction != UP){
-			DEBUG_PRINT("Direction is now down\n");
+			//DEBUG_PRINT("Direction is now down\n");
 			direction = DOWN;
 		}
 		
 		//check for collision detection
 		//check for hit the food
-		if(snake->head->row == snake->food->row && snake->head->col == snake->food->col){
+		if(snake->head->row == snake->food->row && snake->head->col == snake->food->col
+			&& ateFood == 0){
+			DEBUG_PRINT("Ate a piece of food\n");
 			ateFood = 1;
+			list_add(snake, 0, 0, 20, 20);
+			DEBUG_PRINTF("Snake is now size %d\n",snake->size);
+			snake->food = NULL;
+			free(snake->food);
+			DEBUG_PRINT("Old food was now destroyed\n");
 		}
 		//hit top of screen?
 		if(snake->head->row < 0){
@@ -89,7 +104,7 @@ int playGame(){
 			break;
 		}
 		//hit bottom of screen?
-		if(snake->head->row > (159 - snake->head->height + 1)){
+		if(snake->head->row > (screenHeight - snake->head->height + 1)){
 			DEBUG_PRINTF("Snake hit bottom of screen. Row is %d\n", snake->head->row);
 			result = 0;
 			break;
@@ -101,7 +116,7 @@ int playGame(){
 			break;
 		}
 		//hit right side of screen?
-		if(snake->head->col > (239 - snake->head->width + 1)){
+		if(snake->head->col > (screenWidth - snake->head->width + 1)){
 			DEBUG_PRINTF("Snake hit right of screen. Col is %d\n", snake->head->col);
 			result = 0;
 			break;
@@ -143,6 +158,7 @@ int playGame(){
 		
 		//wait for VBlank to draw
 		waitForVblank();
+		
 		if(iteration > time){
 			drawSnake(snake, ateFood, oldRowTail, oldColTail);
 			iteration = 0;

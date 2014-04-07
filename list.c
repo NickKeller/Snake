@@ -2,6 +2,8 @@
 #include "mylib.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
+#include <debugging.h>
 
 /**
  * This function will create a new list and return a pointer to that list.
@@ -142,8 +144,10 @@ void updateSnakePositions(LIST* snake, int oldRow, int oldCol){
 
 void drawSnake(LIST* snake, int ateFood, int oldRow, int oldCol){
 	//draw the new location of the head of the snake
-	drawImage3(snake->head->row, snake->head->col, snake->head->width,
-				 snake->head->height, WHITE);
+	drawImage3(snake->head->row, 
+			   snake->head->col, 
+			   snake->head->width,
+			   snake->head->height, WHITE);
 	//only draw over the tail if it didn't eat food
 	if(ateFood == 0){
 		drawImage3(oldRow, oldCol, snake->tail->width, 
@@ -151,6 +155,26 @@ void drawSnake(LIST* snake, int ateFood, int oldRow, int oldCol){
 	}
 	
 	else{
+		//snake ate the food, find a new place for the food
+		srand(time(NULL));
+		int row = 0;
+		int col = 0;
+		do{
+			row = rand() % 16;
+			col = rand() % 24;
+		}
+		while(contains(snake, row, col));
+		//make a new food piece
+		NODE* newFood = create_node(row * snake->head->height,
+									col * snake->head->width,  
+									snake->head->height,
+									snake->head->width);
+		DEBUG_PRINTF("New food place at (%d,%d)\n",newFood->row,newFood->col);
+		snake->food = newFood;
+		drawImage3(snake->food->row, 
+				   snake->food->col, 
+				   snake->food->width,
+				   snake->food->height, WHITE);	
 		
 	}
 	
@@ -166,6 +190,20 @@ int hitSelf(LIST* snake){
 		current = current->next;
 	}
 	return result;
+}
+
+/*
+	This determines if one of the snake's segments is at the given row or column
+*/
+int contains(LIST* snake, int row, int col){
+	NODE* current = snake->head;
+	while(current != NULL){
+		if(current->row == row && current->col == col){
+			return 1;
+		}
+		current = current->next;
+	}
+	return 0;
 }
 
 

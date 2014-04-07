@@ -26,5 +26,6 @@ void print_node(NODE* node);
 void updateSnakePositions(LIST* snake, int oldRow, int oldCol);
 void drawSnake(LIST* snake, int ateFood, int oldRow, int oldCol);
 int hitSelf(LIST* snake);
+int contains(LIST* snake, int row, int col);
 
 #endif

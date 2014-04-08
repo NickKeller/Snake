@@ -31,7 +31,7 @@ int main(void){
 			displayWinningScreen();
 		}
 		//wait for player to hit reset
-		while(!KEY_DOWN_NOW(BUTTON_START));
+		while(!KEY_DOWN_NOW(BUTTON_SELECT));
 	}
 }
 
@@ -171,30 +171,3 @@ int playGame(){
 	
 	return result;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

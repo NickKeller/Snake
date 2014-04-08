@@ -2,7 +2,6 @@
 #include "mylib.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
 #include <debugging.h>
 
 /**
@@ -142,7 +141,7 @@ void updateSnakePositions(LIST* snake, int oldRow, int oldCol){
 	current->col = oldCol;
 }
 
-void drawSnake(LIST* snake, int ateFood, int oldRow, int oldCol){
+void drawSnake(LIST* snake, int ateFood, int oldRow, int oldCol, int seed){
 	//draw the new location of the head of the snake
 	drawImage3(snake->head->row, 
 			   snake->head->col, 
@@ -156,7 +155,6 @@ void drawSnake(LIST* snake, int ateFood, int oldRow, int oldCol){
 	
 	else{
 		//snake ate the food, find a new place for the food
-		int seed = time(NULL);
 		srand(seed);
 		int row = 0;
 		int col = 0;

@@ -24,7 +24,7 @@ void list_del(LIST* llist, int index);
 NODE* create_node(int row, int col, int width, int height);
 void print_node(NODE* node);
 void updateSnakePositions(LIST* snake, int oldRow, int oldCol);
-void drawSnake(LIST* snake, int ateFood, int oldRow, int oldCol);
+void drawSnake(LIST* snake, int ateFood, int oldRow, int oldCol, int seed);
 int hitSelf(LIST* snake);
 int contains(LIST* snake, int row, int col);
 

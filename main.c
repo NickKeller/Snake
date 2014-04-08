@@ -3,7 +3,6 @@
 #include "WelcomeScreen.h"
 #include "WinningScreen.h"
 #include "LosingScreen.h"
-
 #include <debugging.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -42,6 +41,7 @@ int playGame(){
 	int iteration = 0;
 	int time = 5;
 	int ateFood = 0;
+	int seed = 1;
 	//initialize the snake
 	LIST *snake = initializeSnake();
 	//draw the initial snake
@@ -160,11 +160,12 @@ int playGame(){
 		waitForVblank();
 		
 		if(iteration > time){
-			drawSnake(snake, ateFood, oldRowTail, oldColTail);
+			drawSnake(snake, ateFood, oldRowTail, oldColTail, seed);
 			iteration = 0;
 			ateFood = 0;
 		}	
 		iteration++;
+		seed = (seed + 1) % 32767;
 	}
 	
 	
